@@ -1,21 +1,16 @@
 services:
   - type: web
-    name: harmonyx-mcp-server
+    name: harmonyx-mcp
     runtime: python
-    buildCommand: |
-      pip install uv
-      uv tool install mcp-server-odoo
-    startCommand: |
-      export PATH="$HOME/.local/bin:$PATH"
-      mcp-server-odoo --transport streamable-http --host 0.0.0.0 --port $PORT
+    repo: https://github.com/Harmonyxae/harmonyx-mcp
+    buildCommand: pip install mcp httpx
+    startCommand: python server.py
     envVars:
       - key: ODOO_URL
         value: https://harmonyx-hany-test-24604178.dev.odoo.com
+      - key: ODOO_DB
+        value: harmonyx-hany-test-24604178
       - key: ODOO_USER
         value: admin
       - key: ODOO_PASSWORD
         sync: false
-      - key: ODOO_DB
-        value: harmonyx-hany-test-24604178
-      - key: ODOO_YOLO
-        value: read
