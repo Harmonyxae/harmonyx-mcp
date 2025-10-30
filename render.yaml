@@ -1,16 +1,9 @@
 services:
   - type: web
-    name: harmonyx-mcp
-    runtime: python
-    repo: https://github.com/Harmonyxae/harmonyx-mcp
-    buildCommand: pip install mcp httpx
-    startCommand: python server.py
+    name: harmonyx-mcp-server
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn server:app --host 0.0.0.0 --port $PORT
     envVars:
-      - key: ODOO_URL
-        value: https://harmonyx-hany-test-24604178.dev.odoo.com
-      - key: ODOO_DB
-        value: harmonyx-hany-test-24604178
-      - key: ODOO_USER
-        value: admin
-      - key: ODOO_PASSWORD
-        sync: false
+      - key: PYTHON_VERSION
+        value: 3.11.0
