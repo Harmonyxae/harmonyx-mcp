@@ -31,8 +31,9 @@ def search_contacts(name: str = None):
     
     return {"contacts": partners}
 
-# Export the app for uvicorn
-app = mcp
+# This is what uvicorn will call
+def app(scope, receive, send):
+    return mcp._app(scope, receive, send)
 
 if __name__ == "__main__":
     mcp.run(transport="streamable-http")
