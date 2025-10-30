@@ -1,7 +1,6 @@
-cat > server.py << 'EOF'
 import os
 from mcp.server.fastmcp import FastMCP
-import httpx
+import xmlrpc.client
 
 # Create MCP server
 mcp = FastMCP("harmonyx-odoo")
@@ -14,8 +13,6 @@ ODOO_PASSWORD = os.getenv("ODOO_PASSWORD")
 @mcp.tool()
 def search_contacts(name: str = None):
     """Search for contacts in Odoo"""
-    import xmlrpc.client
-    
     common = xmlrpc.client.ServerProxy(f'{ODOO_URL}/xmlrpc/2/common')
     uid = common.authenticate(ODOO_DB, ODOO_USER, ODOO_PASSWORD, {})
     
@@ -36,4 +33,3 @@ def search_contacts(name: str = None):
 
 if __name__ == "__main__":
     mcp.run(transport="streamable-http")
-EOF
