@@ -1,6 +1,7 @@
 import os
 from mcp.server.fastmcp import FastMCP
 import xmlrpc.client
+import uvicorn
 
 # Create MCP server
 mcp = FastMCP("harmonyx-odoo")
@@ -33,4 +34,5 @@ def search_contacts(name: str = None):
 
 if __name__ == "__main__":
     port = int(os.getenv("PORT", 8000))
-    mcp.run(transport="streamable-http", host="0.0.0.0", port=port)
+    app = mcp.get_asgi_app(transport="streamable-http")
+    uvicorn.run(app, host="0.0.0.0", port=port)
